@@ -1,16 +1,21 @@
 import { ActionTypes as types } from './constants'
 
 export const initialState = {
-  buttonClick: false
+  people: {},
+  loading: true,
+  errorMessage: false
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.RESET_STATE:
-      return { initialState }
+    case types.FETCH_PEOPLE:
+      return { ...state, loading: true, errorMessage: false }
 
-    case types.CLICK_BUTTON:
-      return { buttonClick: true }
+    case types.FETCH_PEOPLE_SUCCESS:
+      return { ...state, loading: false, people: action.payload }
+
+    case types.FETCH_PEOPLE_FAIL:
+      return { ...state, loading: false, people: {}, errorMessage: true }
 
     default:
       return state
