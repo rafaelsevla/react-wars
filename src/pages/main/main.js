@@ -5,14 +5,15 @@ import { fetchPeople } from './actions'
 import styled from 'styled-components'
 
 import {
+  Button,
   Grid,
   Card as CardMaterial,
   CardActionArea,
   CardActions,
   CardContent,
-  Button,
   Typography
 } from '@material-ui/core'
+// import { Autorenew } from '@material-ui/icons'
 
 import { Header } from 'ui'
 
@@ -35,7 +36,7 @@ function Main ({ people, fetchPeople }) {
                 <CardActionArea>
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      {person.name}
+                      {person.name} <Span>({person.gender})</Span>
                     </Typography>
                     <Typography variant='body2' color='textSecondary' component='p'>
                       Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
@@ -67,6 +68,10 @@ const Container = styled(Grid)`
 
 const Card = styled(CardMaterial)`
   max-width: 345px;
+`
+
+const Span = styled.span`
+  font-size: 17px;
 `
 
 Main.propTypes = {
