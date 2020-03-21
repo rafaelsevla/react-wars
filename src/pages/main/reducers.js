@@ -1,6 +1,12 @@
 import { ActionTypes as types } from './constants'
 
 export const initialState = {
+  starships: {
+    count: 0,
+    next: '',
+    previous: null,
+    data: {}
+  },
   people: {
     count: 0,
     next: '',
@@ -69,6 +75,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         errorMessage: true
+      }
+
+    case types.FETCH_STARSHIPS_SUCCESS:
+      return {
+        ...state,
+        starships: {
+          count: action.payload.count,
+          next: action.payload.next,
+          previous: action.payload.previous,
+          data: { ...state.starships.data, ...action.payload.data }
+        }
       }
 
     default:

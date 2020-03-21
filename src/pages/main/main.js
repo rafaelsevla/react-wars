@@ -10,19 +10,30 @@ import {
   CardMedia,
   CardActionArea,
   CardActions,
-  CardContent,
+  CardContent as CardContentMaterial,
   Typography,
   CircularProgress
 } from '@material-ui/core'
 
-import { fetchPeople, fetchMorePeople } from './actions'
+import { fetchPeople, fetchMorePeople, fetchStarships } from './actions'
 
 import { Header } from 'ui'
 
-function Main ({ people, fetchPeople, loading, fetchMorePeople }) {
+function Main ({
+  people,
+  starships,
+  loading,
+  fetchPeople,
+  fetchMorePeople,
+  fetchStarships
+}) {
   useEffect(() => {
     fetchPeople()
   }, [fetchPeople])
+
+  useEffect(() => {
+    fetchStarships(1)
+  }, [])
 
   function fetchImage () {
     const randomNumber = Math.round(Math.random() * (500 - 200) + 200)
@@ -59,8 +70,13 @@ function Main ({ people, fetchPeople, loading, fetchMorePeople }) {
                           {person.name} <Span>({person.gender})</Span>
                         </Typography>
                         <Typography variant='body2' color='textSecondary' component='p'>
-                          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                          across all continents except Antarctica
+                          {person.starships.length > 0 && (
+                            <>
+                              <span>Starships:</span>
+                              <br />
+                              <span>{person.starships.map(starship => starships.data[starship].name).join(', ')}</span>
+                            </>
+                          )}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
@@ -111,11 +127,18 @@ const ButtonLoading = styled(Button)`
   height: 36px;
 `
 
+const CardContent = styled(CardContentMaterial)`
+  width: 330px;
+  height: 135px;
+`
+
 Main.propTypes = {
-  fetchPeople: t.func.isRequired,
   people: t.object.isRequired,
+  starships: t.object.isRequired,
+  loading: t.object.isRequired,
+  fetchPeople: t.func.isRequired,
   fetchMorePeople: t.func.isRequired,
-  loading: t.object.isRequired
+  fetchStarships: t.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -126,7 +149,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchPeople,
-  fetchMorePeople
+  fetchMorePeople,
+  fetchStarships
 }
 
 export default connect(
