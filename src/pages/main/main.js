@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import t from 'prop-types'
-import { fetchPeople } from './actions'
 import styled from 'styled-components'
 
 import {
@@ -15,11 +14,12 @@ import {
   Typography,
   CircularProgress
 } from '@material-ui/core'
-// import { Autorenew } from '@material-ui/icons'
+
+import { fetchPeople, fetchMorePeople } from './actions'
 
 import { Header } from 'ui'
 
-function Main ({ people, fetchPeople, loading }) {
+function Main ({ people, fetchPeople, loading, fetchMorePeople }) {
   useEffect(() => {
     fetchPeople()
   }, [fetchPeople])
@@ -36,46 +36,54 @@ function Main ({ people, fetchPeople, loading }) {
       </Header>
 
       <Container item xs={12}>
-        <Grid container justify='center' spacing={2}>
-          {loading.allPeople ? (
-            <Grid align='center'>
-              <CircularProgress />
+        {loading.allPeople ? (
+          <Grid align='center'>
+            <CircularProgress />
+          </Grid>
+        ) : (
+          <>
+            <Grid container justify='center' spacing={2}>
+              {people.results.map(person => (
+                <Grid key={person.url} item>
+                  <Card>
+                    <CardActionArea>
+                      <CardMedia
+                        component='img'
+                        alt={person.name}
+                        height='140'
+                        src={fetchImage()}
+                        title={person.name}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                          {person.name} <Span>({person.gender})</Span>
+                        </Typography>
+                        <Typography variant='body2' color='textSecondary' component='p'>
+                          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                          across all continents except Antarctica
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <Button size='small' color='primary'>
+                        Ver mais
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
-          ) : (
-            people.results.map(person => (
-              <Grid key={person.url} item>
-                <Card>
-                  <CardActionArea>
-                    <CardMedia
-                      component='img'
-                      alt={person.name}
-                      height='140'
-                      src={fetchImage()}
-                      title={person.name}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant='h5' component='h2'>
-                        {person.name} <Span>({person.gender})</Span>
-                      </Typography>
-                      <Typography variant='body2' color='textSecondary' component='p'>
-                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                        across all continents except Antarctica
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Button size='small' color='primary'>
-                      Share
-                    </Button>
-                    <Button size='small' color='primary'>
-                      Learn More
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))
-          )}
-        </Grid>
+            <GridButton container direction='row' xs={12} justify='center'>
+              <ButtonLoading variant='contained' color='primary' onClick={fetchMorePeople}>
+                {loading.moreData ? (
+                  <CircularProgress size={25} color='inherit' />
+                ) : (
+                  'Carregar mais personagens'
+                )}
+              </ButtonLoading>
+            </GridButton>
+          </>
+        )}
       </Container>
     </Grid>
   )
@@ -94,9 +102,19 @@ const Span = styled.span`
   font-size: 17px;
 `
 
+const GridButton = styled(Grid)`
+  margin-top: 30px;
+`
+
+const ButtonLoading = styled(Button)`
+  width: 255px;
+  height: 36px;
+`
+
 Main.propTypes = {
   fetchPeople: t.func.isRequired,
   people: t.object.isRequired,
+  fetchMorePeople: t.func.isRequired,
   loading: t.object.isRequired
 }
 
@@ -107,7 +125,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  fetchPeople
+  fetchPeople,
+  fetchMorePeople
 }
 
 export default connect(

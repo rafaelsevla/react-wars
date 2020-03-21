@@ -18,7 +18,12 @@ export const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.FETCH_PEOPLE:
-      return { ...state, loading: { allPeople: true, moreData: false }, errorMessage: false }
+      return {
+        ...state,
+        loading: { allPeople: true, moreData: false },
+        errorMessage: false,
+        nextPage: 1
+      }
 
     case types.FETCH_PEOPLE_SUCCESS:
       return {
