@@ -12,7 +12,7 @@ export const initialState = {
     moreData: false
   },
   errorMessage: false,
-  page: 1
+  nextPage: 1
 }
 
 export default (state = initialState, action) => {
@@ -21,13 +21,48 @@ export default (state = initialState, action) => {
       return { ...state, loading: { allPeople: true, moreData: false }, errorMessage: false }
 
     case types.FETCH_PEOPLE_SUCCESS:
-      return { ...state, loading: initialState.loading, people: action.payload }
-
-    case types.FETCH_PEOPLE_FAIL:
       return {
         ...state,
         loading: initialState.loading,
-        people: initialState.people,
+        people: action.payload,
+        nextPage: state.nextPage + 1
+      }
+
+    case types.FETCH_PEOPLE_FAIL:
+      return {
+        ...initialState,
+        errorMessage: true
+      }
+
+    case types.FETCH_MORE_PEOPLE:
+      return {
+        ...state,
+        loading: {
+          allPeople: false,
+          moreData: true
+        },
+        errorMessage: false
+      }
+
+    case types.FETCH_MORE_PEOPLE_SUCCESS:
+      return {
+        ...state,
+        people: {
+          ...state.people,
+          next: action.payload.next,
+          previous: action.payload.previous,
+          results: [...state.people.results, ...action.payload.results]
+        },
+        loading: {
+          allPeople: false,
+          moreData: false
+        },
+        nextPage: state.nextPage + 1
+      }
+
+    case types.FETCH_MORE_PEOPLE_FAIL:
+      return {
+        ...state,
         errorMessage: true
       }
 

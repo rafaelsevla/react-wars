@@ -1,1 +1,1 @@
-export { lukeSkywalker, C3PO } from './mocks'
+export { lukeSkywalker, C3PO, R2D2 } from './mocks'
