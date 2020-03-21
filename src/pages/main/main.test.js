@@ -1,33 +1,83 @@
 import reducer, { initialState } from './reducers'
 import { ActionTypes as types } from './constants'
+import { lukeSkywalker, C3PO } from 'utils/mocks'
 
-test('should be return buttonClick: true ', () => {
+test('should be loading people props', () => {
   const before = initialState
 
-  const action = { type: types.CLICK_BUTTON }
+  const action = { type: types.FETCH_PEOPLE }
 
   const after = {
-    buttonClick: true
+    people: {
+      count: 0,
+      next: '',
+      previous: null,
+      results: []
+    },
+    loading: {
+      allPeople: true,
+      moreData: false
+    },
+    errorMessage: false,
+    page: 1
   }
   expect(reducer(before, action)).toEqual(after)
 })
 
-test('should be return buttonClick: false ', () => {
-  const before = { buttonClick: true }
+test('should be return data of people', () => {
+  const before = initialState
 
-  const action = { type: types.RESET_STATE }
+  const action = {
+    type: types.FETCH_PEOPLE_SUCCESS,
+    payload: {
+      count: 2,
+      next: "https://swapi.co/api/people/?page=2",
+	    previous: null,
+      results: [
+        lukeSkywalker,
+        C3PO
+      ]
+    }
+  }
 
-  const after = { initialState }
-
+  const after = {
+    people: {
+      count: 2,
+      next: "https://swapi.co/api/people/?page=2",
+	    previous: null,
+      results: [
+        lukeSkywalker,
+        C3PO
+      ]
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: false,
+    page: 1
+  }
   expect(reducer(before, action)).toEqual(after)
 })
 
-test('should be return old state', () => {
-  const before = { buttonClick: true }
+test('should be errorMessage on fetch people', () => {
+  const before = initialState
 
-  const action = { type: 'UNKNOW_ACTION' }
+  const action = { type: types.FETCH_PEOPLE_FAIL }
 
-  const after = { buttonClick: true }
-
+  const after = {
+    people: {
+      count: 0,
+      next: '',
+      previous: null,
+      results: []
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: true,
+    page: 1
+  }
   expect(reducer(before, action)).toEqual(after)
 })

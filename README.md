@@ -5,9 +5,9 @@
 - [JavaScript Standard](https://standardjs.com/) - JavaScript style guide, linter, and formatter;
 - [Material-UI](https://material-ui.com/) - React components for faster and easier web development;
 - [React](https://reactjs.org) - A JavaScript library for building user interfaces;
+- [React Hot Loader](https://github.com/gaearon/react-hot-loader) - Tweak React components in real time.
 - [Redux](https://redux.js.org) - A predictable state container for JavaScript apps;
 - [Redux Persist](https://github.com/rt2zz/redux-persist) - Persist and rehydrate a redux store;
-- [Sass](https://sass-lang.com/) - CSS with superpowers;
 - [Styled Components](https://www.styled-components.com) - Visual primitives for the component age.
 
 ## Up and running

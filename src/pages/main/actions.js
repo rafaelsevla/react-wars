@@ -7,13 +7,14 @@ export const fetchPeople = () => dispatch => {
     type: types.FETCH_PEOPLE
   })
 
-  client.get(`${API.PEOPLE}`).then(response => {
-    console.log(response.data)
-    dispatch({
-      type: types.FETCH_PEOPLE_SUCCESS,
-      payload: response.data
+  client.get(`${API.PEOPLE}`)
+    .then(response => {
+      dispatch({
+        type: types.FETCH_PEOPLE_SUCCESS,
+        payload: response.data
+      })
     })
-  })
+    .catch(e => console.log(e))
 }
 
 export const clickButton = () => ({

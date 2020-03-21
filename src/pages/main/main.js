@@ -8,19 +8,26 @@ import {
   Button,
   Grid,
   Card as CardMaterial,
+  CardMedia,
   CardActionArea,
   CardActions,
   CardContent,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core'
 // import { Autorenew } from '@material-ui/icons'
 
 import { Header } from 'ui'
 
-function Main ({ people, fetchPeople }) {
+function Main ({ people, fetchPeople, loading }) {
   useEffect(() => {
     fetchPeople()
   }, [fetchPeople])
+
+  function fetchImage () {
+    const randomNumber = Math.round(Math.random() * (500 - 200) + 200)
+    return `https://i.picsum.photos/id/${randomNumber}/350/200.jpg`
+  }
 
   return (
     <Grid>
@@ -30,31 +37,44 @@ function Main ({ people, fetchPeople }) {
 
       <Container item xs={12}>
         <Grid container justify='center' spacing={2}>
-          {people.results.map(person => (
-            <Grid key={person.url} item>
-              <Card>
-                <CardActionArea>
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      {person.name} <Span>({person.gender})</Span>
-                    </Typography>
-                    <Typography variant='body2' color='textSecondary' component='p'>
-                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                      across all continents except Antarctica
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size='small' color='primary'>
-                    Share
-                  </Button>
-                  <Button size='small' color='primary'>
-                    Learn More
-                  </Button>
-                </CardActions>
-              </Card>
+          {loading.allPeople ? (
+            <Grid align='center'>
+              <CircularProgress />
             </Grid>
-          ))}
+          ) : (
+            people.results.map(person => (
+              <Grid key={person.url} item>
+                <Card>
+                  <CardActionArea>
+                    <CardMedia
+                      component='img'
+                      alt={person.name}
+                      height='140'
+                      src={fetchImage()}
+                      title={person.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant='h5' component='h2'>
+                        {person.name} <Span>({person.gender})</Span>
+                      </Typography>
+                      <Typography variant='body2' color='textSecondary' component='p'>
+                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                        across all continents except Antarctica
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size='small' color='primary'>
+                      Share
+                    </Button>
+                    <Button size='small' color='primary'>
+                      Learn More
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))
+          )}
         </Grid>
       </Container>
     </Grid>
@@ -76,7 +96,8 @@ const Span = styled.span`
 
 Main.propTypes = {
   fetchPeople: t.func.isRequired,
-  people: t.object.isRequired
+  people: t.object.isRequired,
+  loading: t.object.isRequired
 }
 
 const mapStateToProps = state => {
