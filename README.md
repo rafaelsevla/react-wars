@@ -13,7 +13,7 @@
 ## Up and running
 
 - Clone this repository: `git clone git@github.com:rafaelsevla/react-wars.git`
-- Install dependencies: `yarn`
+- Install dependencies: `yarn install`
 - Run `yarn start` to develop on `http://localhost:3000`
 
 ## Scripts
