@@ -63,6 +63,19 @@ function Main ({
     resetPlanet()
   }, [resetPlanet])
 
+  function renderStarships (starship) {
+    if (starships.data[starship]) {
+      return (
+        <React.Fragment key={starships.data[starship].name}>
+          <span>
+            {starships.data[starship].name}  ({starships.data[starship].starship_class})
+          </span>
+          <br />
+        </React.Fragment>
+      )
+    }
+  }
+
   function fetchImage (number) {
     if (number === 86) number = 87
     return `https://i.picsum.photos/id/${number}/350/200.jpg`
@@ -105,20 +118,9 @@ function Main ({
                           {person.name} <Span>({person.gender})</Span>
                         </Typography>
                         <Typography variant='body2' color='textSecondary' component='p'>
-                          {person.starships.length > 0 && (
-                            <>
-                              {person.starships.map(starship => {
-                                if (starships.data[starship]) {
-                                  return (
-                                    <>
-                                      <span>{starships.data[starship].name}  ({starships.data[starship].starship_class})</span>
-                                      <br />
-                                    </>
-                                  )
-                                }
-                              })}
-                            </>
-                          )}
+                          {person.starships.map(starship => {
+                            return renderStarships(starship)
+                          })}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
