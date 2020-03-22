@@ -43,7 +43,7 @@ function ModalPerson ({ planet, open, person, handleClose }) {
               variant='outlined'
               value={person.height}
             />
-            <TextField
+            <CustomTextField
               label='Massa'
               variant='outlined'
               InputProps={{
@@ -120,7 +120,11 @@ const DialogTitle = styled(DialogTitleMaterial)`
 
 const CustomTextField = styled(TextField)`
   && {
-    margin-top: 10px;
+    margin-top: ${props => props.label === 'Massa' ? 0 : 20}px;
+
+    @media(max-width: 400px) {
+      margin-top: 20px;
+    }
   }
 `
 
