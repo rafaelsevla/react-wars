@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "63618153cc57d46db925dfa474d610e4",
+    "revision": "035a380d4129f941b562d40a9f169fc2",
     "url": "/react-wars/index.html"
   },
   {
@@ -24,15 +24,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-wars/static/js/3.b10cd759.chunk.js.LICENSE"
   },
   {
-    "revision": "4f8ece06488952cbce10",
-    "url": "/react-wars/static/js/4.a38bee80.chunk.js"
+    "revision": "7fb8c4985c54e7502989",
+    "url": "/react-wars/static/js/4.05491f47.chunk.js"
   },
   {
     "revision": "249f3f72147c13d375a0",
     "url": "/react-wars/static/js/main.c8e7e292.chunk.js"
   },
   {
-    "revision": "3c071328a9a37c2e2aeb",
-    "url": "/react-wars/static/js/runtime-main.4fb939a8.js"
+    "revision": "1a8f24a9abd8c9c59016",
+    "url": "/react-wars/static/js/runtime-main.5c2395c0.js"
   }
 ]);
