@@ -65,7 +65,23 @@ export const fetchStarships = page => dispatch => {
 
       next && store.dispatch(fetchStarships(next.match(/\d+/g).join('')))
     })
-    .catch(e =>
-      console.log(e)
+    .catch(() =>
+      alert('Algum erro aconteceu. Não foi possível carregar algumas starships...')
     )
+}
+
+export const fetchPlanet = id => dispatch => {
+  client.get(`${API.PLANETS}${id}`)
+    .then(response => {
+      dispatch({
+        type: types.FETCH_PLANET_SUCCESS,
+        payload: response.data.name
+      })
+    })
+}
+
+export const resetPlanet = () => dispatch => {
+  dispatch({
+    type: types.RESET_PLANET
+  })
 }

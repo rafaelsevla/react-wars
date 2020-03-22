@@ -19,7 +19,8 @@ export const initialState = {
   },
   errorMessage: false,
   nextPage: 1,
-  disableButtonLoadMore: false
+  disableButtonLoadMore: false,
+  planet: ''
 }
 
 export default (state = initialState, action) => {
@@ -92,6 +93,18 @@ export default (state = initialState, action) => {
           previous: action.payload.previous,
           data: { ...state.starships.data, ...action.payload.data }
         }
+      }
+
+    case types.FETCH_PLANET_SUCCESS:
+      return {
+        ...state,
+        planet: action.payload
+      }
+
+    case types.RESET_PLANET:
+      return {
+        ...state,
+        planet: ''
       }
 
     default:

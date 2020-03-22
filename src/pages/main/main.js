@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import t from 'prop-types'
 import styled from 'styled-components'
@@ -15,9 +15,15 @@ import {
   CircularProgress
 } from '@material-ui/core'
 
-import { fetchPeople, fetchMorePeople, fetchStarships } from './actions'
+import {
+  fetchPeople,
+  fetchMorePeople,
+  fetchStarships,
+  fetchPlanet,
+  resetPlanet
+} from './actions'
 
-import { Header } from 'ui'
+import { Header, ModalPerson } from 'ui'
 
 function Main ({
   people,
@@ -26,8 +32,25 @@ function Main ({
   disableButtonLoadMore,
   fetchPeople,
   fetchMorePeople,
-  fetchStarships
+  fetchStarships,
+  fetchPlanet,
+  resetPlanet
 }) {
+  const [openModal, setOpenModal] = useState(false)
+  const [person, setPerson] = useState({})
+
+  function handleOpenModal (person) {
+    setPerson(person)
+    fetchPlanet(person.homeworld.match(/\d+/).join(''))
+    setOpenModal(true)
+  }
+
+  function handleCloseModal () {
+    setPerson({})
+    setOpenModal(false)
+    resetPlanet()
+  }
+
   useEffect(() => {
     fetchPeople()
   }, [fetchPeople])
@@ -35,6 +58,10 @@ function Main ({
   useEffect(() => {
     fetchStarships(1)
   }, [fetchStarships])
+
+  useEffect(() => {
+    resetPlanet()
+  }, [resetPlanet])
 
   function fetchImage (number) {
     if (number === 86) number = 87
@@ -48,6 +75,13 @@ function Main ({
       </Header>
 
       <Container item xs={12}>
+        {openModal && (
+          <ModalPerson
+            open={openModal}
+            handleClose={handleCloseModal}
+            person={person}
+          />
+        )}
         {loading.allPeople ? (
           <Grid align='center'>
             <CircularProgress />
@@ -57,7 +91,7 @@ function Main ({
             <Grid container justify='center' spacing={2}>
               {people.results.map(person => (
                 <Grid key={person.url} item>
-                  <Card>
+                  <Card onClick={() => handleOpenModal(person)}>
                     <CardActionArea>
                       <CardMedia
                         component='img'
@@ -73,7 +107,7 @@ function Main ({
                         <Typography variant='body2' color='textSecondary' component='p'>
                           {person.starships.length > 0 && (
                             <>
-                              <span>Starships:</span>
+                              <strong>Starships:</strong>
                               <br />
                               <span>
                                 {
@@ -90,7 +124,7 @@ function Main ({
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
-                      <Button size='small' color='primary'>
+                      <Button size='small' color='primary' onClick={() => handleOpenModal(person)}>
                         Ver mais
                       </Button>
                     </CardActions>
@@ -162,7 +196,9 @@ Main.propTypes = {
   disableButtonLoadMore: t.bool.isRequired,
   fetchPeople: t.func.isRequired,
   fetchMorePeople: t.func.isRequired,
-  fetchStarships: t.func.isRequired
+  fetchStarships: t.func.isRequired,
+  fetchPlanet: t.func.isRequired,
+  resetPlanet: t.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -174,7 +210,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchPeople,
   fetchMorePeople,
-  fetchStarships
+  fetchStarships,
+  resetPlanet,
+  fetchPlanet
 }
 
 export default connect(

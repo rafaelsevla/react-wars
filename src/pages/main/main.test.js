@@ -26,7 +26,8 @@ test('should be loading people props', () => {
     },
     errorMessage: false,
     nextPage: 1,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -69,7 +70,8 @@ test('should be return data of people', () => {
     },
     errorMessage: false,
     nextPage: 2,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -98,7 +100,8 @@ test('should be errorMessage on fetch people', () => {
     },
     errorMessage: true,
     nextPage: 1,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -125,7 +128,8 @@ test('should be return more people loading = true', () => {
       moreData: false
     },
     errorMessage: false,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
 
   const action = { type: types.FETCH_MORE_PEOPLE }
@@ -151,7 +155,8 @@ test('should be return more people loading = true', () => {
       moreData: true
     },
     errorMessage: false,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -179,7 +184,8 @@ test('should be return more people than now', () => {
     },
     errorMessage: false,
     nextPage: 2,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
 
   const action = {
@@ -215,7 +221,8 @@ test('should be return more people than now', () => {
     },
     errorMessage: false,
     nextPage: 3,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -243,7 +250,8 @@ test('should be return more people than now error', () => {
       moreData: false
     },
     errorMessage: false,
-    nextPage: 2
+    nextPage: 2,
+    planet: ''
   }
 
   const action = { type: types.FETCH_MORE_PEOPLE_FAIL }
@@ -270,7 +278,8 @@ test('should be return more people than now error', () => {
       moreData: false
     },
     errorMessage: true,
-    nextPage: 2
+    nextPage: 2,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -298,7 +307,8 @@ test('should be return more people than now and doest have next page', () => {
     },
     errorMessage: false,
     nextPage: 2,
-    disableButtonLoadMore: false
+    disableButtonLoadMore: false,
+    planet: ''
   }
 
   const action = {
@@ -334,7 +344,96 @@ test('should be return more people than now and doest have next page', () => {
     },
     errorMessage: false,
     nextPage: 3,
-    disableButtonLoadMore: true
+    disableButtonLoadMore: true,
+    planet: ''
   }
   expect(reducer(before, action)).toEqual(after)
 })
+
+test('should be return planet name', () => {
+  const before = initialState
+
+  const action = {
+    type: types.FETCH_PLANET_SUCCESS,
+    payload: 'Tatooine'
+  }
+
+  const after = {
+    starships: {
+      count: 0,
+      next: '',
+      previous: null,
+      data: {}
+    },
+    people: {
+      count: 0,
+      next: '',
+      previous: null,
+      results: []
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: false,
+    nextPage: 1,
+    disableButtonLoadMore: false,
+    planet: 'Tatooine'
+  }
+  expect(reducer(before, action)).toEqual(after)
+})
+
+
+test('should be reset planet name', () => {
+  const before = {
+    starships: {
+      count: 0,
+      next: '',
+      previous: null,
+      data: {}
+    },
+    people: {
+      count: 0,
+      next: '',
+      previous: null,
+      results: []
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: false,
+    nextPage: 1,
+    disableButtonLoadMore: false,
+    planet: 'Tatooine'
+  }
+
+  const action = {
+    type: types.RESET_PLANET
+  }
+
+  const after = {
+    starships: {
+      count: 0,
+      next: '',
+      previous: null,
+      data: {}
+    },
+    people: {
+      count: 0,
+      next: '',
+      previous: null,
+      results: []
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: false,
+    nextPage: 1,
+    disableButtonLoadMore: false,
+    planet: ''
+  }
+  expect(reducer(before, action)).toEqual(after)
+})
+
