@@ -2,6 +2,7 @@ import { ActionTypes as types } from './constants'
 import client from 'client'
 import { store } from 'store'
 import { API } from 'routes'
+import { toast } from 'react-toastify'
 
 const reduceData = data => {
   return data.reduce(
@@ -26,11 +27,12 @@ export const fetchPeople = () => dispatch => {
       })
       store.dispatch(fetchMorePeople())
     })
-    .catch(e =>
+    .catch(e => {
+      toast.error('Ooops! Não foi possível carregar os personagens.')
       dispatch({
         type: types.FETCH_PEOPLE_FAIL
       })
-    )
+    })
 }
 
 export const fetchMorePeople = () => (dispatch, getState) => {
@@ -48,6 +50,7 @@ export const fetchMorePeople = () => (dispatch, getState) => {
       })
     })
     .catch(() => {
+      toast.error('Ooops! Não foi possível carregar outros personagens.')
       dispatch({
         type: types.FETCH_MORE_PEOPLE_FAIL
       })
@@ -66,7 +69,7 @@ export const fetchStarships = page => dispatch => {
       next && store.dispatch(fetchStarships(next.match(/\d+/g).join('')))
     })
     .catch(() =>
-      alert('Algum erro aconteceu. Não foi possível carregar algumas starships...')
+      toast.error('Ooops! Não foi possível carregar algumas starships.')
     )
 }
 

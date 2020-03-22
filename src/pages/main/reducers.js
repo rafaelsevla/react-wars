@@ -17,7 +17,6 @@ export const initialState = {
     allPeople: false,
     moreData: false
   },
-  errorMessage: false,
   nextPage: 1,
   disableButtonLoadMore: false,
   planet: ''
@@ -29,7 +28,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: { allPeople: true, moreData: false },
-        errorMessage: false,
         nextPage: 1
       }
 
@@ -42,10 +40,7 @@ export default (state = initialState, action) => {
       }
 
     case types.FETCH_PEOPLE_FAIL:
-      return {
-        ...initialState,
-        errorMessage: true
-      }
+      return initialState
 
     case types.FETCH_MORE_PEOPLE:
       return {
@@ -53,8 +48,7 @@ export default (state = initialState, action) => {
         loading: {
           allPeople: false,
           moreData: true
-        },
-        errorMessage: false
+        }
       }
 
     case types.FETCH_MORE_PEOPLE_SUCCESS:
@@ -80,8 +74,7 @@ export default (state = initialState, action) => {
         loading: {
           allPeople: false,
           moreData: false
-        },
-        errorMessage: true
+        }
       }
 
     case types.FETCH_STARSHIPS_SUCCESS:

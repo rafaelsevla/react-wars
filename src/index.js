@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css'
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'
 import { render } from 'react-dom'
@@ -7,6 +8,7 @@ import { Provider } from 'react-redux'
 import App from './App'
 import { store, persistor } from 'store'
 import { PersistGate } from 'redux-persist/integration/react'
+import { ToastContainer } from 'react-toastify'
 
 const GlobalStyle = createGlobalStyle`
   #root {
@@ -27,6 +29,7 @@ render(
 
       <BrowserRouter>
         <Route component={App} />
+        <ToastContainer />
       </BrowserRouter>
     </PersistGate>
   </Provider>,

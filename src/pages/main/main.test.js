@@ -24,7 +24,6 @@ test('should be loading people props', () => {
       allPeople: true,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 1,
     disableButtonLoadMore: false,
     planet: ''
@@ -68,7 +67,6 @@ test('should be return data of people', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 2,
     disableButtonLoadMore: false,
     planet: ''
@@ -76,7 +74,7 @@ test('should be return data of people', () => {
   expect(reducer(before, action)).toEqual(after)
 })
 
-test('should be errorMessage on fetch people', () => {
+test('should be disable load on error on fetch people', () => {
   const before = initialState
 
   const action = { type: types.FETCH_PEOPLE_FAIL }
@@ -98,7 +96,6 @@ test('should be errorMessage on fetch people', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: true,
     nextPage: 1,
     disableButtonLoadMore: false,
     planet: ''
@@ -127,7 +124,6 @@ test('should be return more people loading = true', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     disableButtonLoadMore: false,
     planet: ''
   }
@@ -154,7 +150,6 @@ test('should be return more people loading = true', () => {
       allPeople: false,
       moreData: true
     },
-    errorMessage: false,
     disableButtonLoadMore: false,
     planet: ''
   }
@@ -182,7 +177,6 @@ test('should be return more people than now', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 2,
     disableButtonLoadMore: false,
     planet: ''
@@ -219,7 +213,6 @@ test('should be return more people than now', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 3,
     disableButtonLoadMore: false,
     planet: ''
@@ -249,7 +242,6 @@ test('should be return more people than now error', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 2,
     planet: ''
   }
@@ -277,7 +269,6 @@ test('should be return more people than now error', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: true,
     nextPage: 2,
     planet: ''
   }
@@ -305,7 +296,6 @@ test('should be return more people than now and doest have next page', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 2,
     disableButtonLoadMore: false,
     planet: ''
@@ -342,7 +332,6 @@ test('should be return more people than now and doest have next page', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 3,
     disableButtonLoadMore: true,
     planet: ''
@@ -375,7 +364,6 @@ test('should be return planet name', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 1,
     disableButtonLoadMore: false,
     planet: 'Tatooine'
@@ -402,7 +390,6 @@ test('should be reset planet name', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 1,
     disableButtonLoadMore: false,
     planet: 'Tatooine'
@@ -429,7 +416,6 @@ test('should be reset planet name', () => {
       allPeople: false,
       moreData: false
     },
-    errorMessage: false,
     nextPage: 1,
     disableButtonLoadMore: false,
     planet: ''

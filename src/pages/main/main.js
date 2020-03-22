@@ -107,17 +107,16 @@ function Main ({
                         <Typography variant='body2' color='textSecondary' component='p'>
                           {person.starships.length > 0 && (
                             <>
-                              <strong>Starships:</strong>
-                              <br />
-                              <span>
-                                {
-                                  person.starships.map(starship =>
-                                    starships.data[starship] && (
-                                      starships.data[starship].name
-                                    )
-                                  ).join(', ')
+                              {person.starships.map(starship => {
+                                if (starships.data[starship]) {
+                                  return (
+                                    <>
+                                      <span>{starships.data[starship].name}  ({starships.data[starship].starship_class})</span>
+                                      <br />
+                                    </>
+                                  )
                                 }
-                              </span>
+                              })}
                             </>
                           )}
                         </Typography>
