@@ -29,7 +29,8 @@
     "start": "rescripts start",
     "build": "rescripts build",
     "test": "rescripts test",
-    "lint:fix": "standard --fix | snazzy"
+    "lint:fix": "standard --fix | snazzy",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

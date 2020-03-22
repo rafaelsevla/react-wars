@@ -20,6 +20,7 @@
 
 - `yarn start (or npm start)`: Starts the application
 - `yarn run build (or npm run build)`: Builds the app for production to the `build` folder.
+- `yarn run deploy (or npm run deploy)`: Deploy the app to the github pages.
 - `yarn run test (or npm run test)`: Run tests once
 - `yarn run test --watch (or npm run test --watch)`: Run tests in watch mode
 
