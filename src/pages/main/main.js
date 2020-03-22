@@ -174,9 +174,8 @@ const GridButton = styled(Grid)`
 `
 
 const ButtonLoading = styled(Button)`
-  width: 255px;
-  height: 36px;
   && {
+    width: 255px;
     &:disabled {
       color: #fff;
       background-color: #3f51b5;
