@@ -18,7 +18,8 @@ export const initialState = {
     moreData: false
   },
   errorMessage: false,
-  nextPage: 1
+  nextPage: 1,
+  disableButtonLoadMore: false
 }
 
 export default (state = initialState, action) => {
@@ -68,12 +69,17 @@ export default (state = initialState, action) => {
           allPeople: false,
           moreData: false
         },
-        nextPage: state.nextPage + 1
+        nextPage: state.nextPage + 1,
+        disableButtonLoadMore: !action.payload.next
       }
 
     case types.FETCH_MORE_PEOPLE_FAIL:
       return {
         ...state,
+        loading: {
+          allPeople: false,
+          moreData: false
+        },
         errorMessage: true
       }
 

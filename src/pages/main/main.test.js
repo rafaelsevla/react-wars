@@ -25,7 +25,8 @@ test('should be loading people props', () => {
       moreData: false
     },
     errorMessage: false,
-    nextPage: 1
+    nextPage: 1,
+    disableButtonLoadMore: false
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -67,7 +68,8 @@ test('should be return data of people', () => {
       moreData: false
     },
     errorMessage: false,
-    nextPage: 2
+    nextPage: 2,
+    disableButtonLoadMore: false
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -95,7 +97,8 @@ test('should be errorMessage on fetch people', () => {
       moreData: false
     },
     errorMessage: true,
-    nextPage: 1
+    nextPage: 1,
+    disableButtonLoadMore: false
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -122,7 +125,7 @@ test('should be return more people loading = true', () => {
       moreData: false
     },
     errorMessage: false,
-    page: 1
+    disableButtonLoadMore: false
   }
 
   const action = { type: types.FETCH_MORE_PEOPLE }
@@ -148,7 +151,7 @@ test('should be return more people loading = true', () => {
       moreData: true
     },
     errorMessage: false,
-    page: 1
+    disableButtonLoadMore: false
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -175,7 +178,8 @@ test('should be return more people than now', () => {
       moreData: false
     },
     errorMessage: false,
-    nextPage: 2
+    nextPage: 2,
+    disableButtonLoadMore: false
   }
 
   const action = {
@@ -210,7 +214,8 @@ test('should be return more people than now', () => {
       moreData: false
     },
     errorMessage: false,
-    nextPage: 3
+    nextPage: 3,
+    disableButtonLoadMore: false
   }
   expect(reducer(before, action)).toEqual(after)
 })
@@ -270,38 +275,66 @@ test('should be return more people than now error', () => {
   expect(reducer(before, action)).toEqual(after)
 })
 
-test('should be get starships', () => {
-  const before = initialState
-
-  const action = {
-    type: types.FETCH_STARSHIPS_SUCCESS,
-    payload: {
-      count: 37,
-      next: 'https://swapi.co/api/people/?page=2',
-      previous: null,
-      data: { 'https://swapi.co/api/starships/15/': Executor }
-    }
-  }
-
-  const after = {
+test('should be return more people than now and doest have next page', () => {
+  const before = {
     starships: {
-      count: 37,
-      next: 'https://swapi.co/api/people/?page=2',
-      previous: null,
-      data: { 'https://swapi.co/api/starships/15/': Executor }
-    },
-    people: {
       count: 0,
       next: '',
       previous: null,
-      results: []
+      data: {}
+    },
+    people: {
+      count: 87,
+      next: "https://swapi.co/api/people/?page=2",
+	    previous: null,
+      results: [
+        lukeSkywalker,
+        C3PO
+      ]
     },
     loading: {
       allPeople: false,
       moreData: false
     },
     errorMessage: false,
-    nextPage: 1,
+    nextPage: 2,
+    disableButtonLoadMore: false
+  }
+
+  const action = {
+    type: types.FETCH_MORE_PEOPLE_SUCCESS,
+    payload: {
+      count: 87,
+      next: null,
+      previous: "https://swapi.co/api/people/?page=1",
+      results: [R2D2]
+    }
+  }
+
+  const after = {
+    starships: {
+      count: 0,
+      next: '',
+      previous: null,
+      data: {}
+    },
+    people: {
+      count: 87,
+      next: null,
+      previous: "https://swapi.co/api/people/?page=1",
+      results: [
+        lukeSkywalker,
+        C3PO,
+        R2D2
+      ]
+    },
+    loading: {
+      allPeople: false,
+      moreData: false
+    },
+    errorMessage: false,
+    nextPage: 3,
+    disableButtonLoadMore: true
   }
   expect(reducer(before, action)).toEqual(after)
 })

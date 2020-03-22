@@ -23,6 +23,7 @@ function Main ({
   people,
   starships,
   loading,
+  disableButtonLoadMore,
   fetchPeople,
   fetchMorePeople,
   fetchStarships
@@ -33,11 +34,11 @@ function Main ({
 
   useEffect(() => {
     fetchStarships(1)
-  }, [])
+  }, [fetchStarships])
 
-  function fetchImage () {
-    const randomNumber = Math.round(Math.random() * (500 - 200) + 200)
-    return `https://i.picsum.photos/id/${randomNumber}/350/200.jpg`
+  function fetchImage (number) {
+    if (number === 86) number = 87
+    return `https://i.picsum.photos/id/${number}/350/200.jpg`
   }
 
   return (
@@ -62,7 +63,7 @@ function Main ({
                         component='img'
                         alt={person.name}
                         height='140'
-                        src={fetchImage()}
+                        src={fetchImage(person.url.match(/\d+/).join(''))}
                         title={person.name}
                       />
                       <CardContent>
@@ -74,7 +75,15 @@ function Main ({
                             <>
                               <span>Starships:</span>
                               <br />
-                              <span>{person.starships.map(starship => starships.data[starship].name).join(', ')}</span>
+                              <span>
+                                {
+                                  person.starships.map(starship =>
+                                    starships.data[starship] && (
+                                      starships.data[starship].name
+                                    )
+                                  ).join(', ')
+                                }
+                              </span>
                             </>
                           )}
                         </Typography>
@@ -89,10 +98,17 @@ function Main ({
                 </Grid>
               ))}
             </Grid>
-            <GridButton container direction='row' xs={12} justify='center'>
-              <ButtonLoading variant='contained' color='primary' onClick={fetchMorePeople}>
+            <GridButton container direction='row' justify='center'>
+              <ButtonLoading
+                variant='contained'
+                color='primary'
+                onClick={fetchMorePeople}
+                disabled={loading.moreData || disableButtonLoadMore}
+              >
                 {loading.moreData ? (
                   <CircularProgress size={25} color='inherit' />
+                ) : disableButtonLoadMore ? (
+                  'Não tem mais personagens para carregar'
                 ) : (
                   'Carregar mais personagens'
                 )}
@@ -125,6 +141,13 @@ const GridButton = styled(Grid)`
 const ButtonLoading = styled(Button)`
   width: 255px;
   height: 36px;
+  && {
+    &:disabled {
+      color: #fff;
+      background-color: #3f51b5;
+      opacity: 0.7;
+    }
+  }
 `
 
 const CardContent = styled(CardContentMaterial)`
@@ -136,6 +159,7 @@ Main.propTypes = {
   people: t.object.isRequired,
   starships: t.object.isRequired,
   loading: t.object.isRequired,
+  disableButtonLoadMore: t.bool.isRequired,
   fetchPeople: t.func.isRequired,
   fetchMorePeople: t.func.isRequired,
   fetchStarships: t.func.isRequired
